@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Maker</title>
+</head>
+<body>
+    <h1>Table Maker</h1>
+
+    <form action="/add_table" method="post">
+        <label for="table_name">Table Name:</label>
+        <input type="text" id="table_name" name="table_name" required><br>
+        <label for="rows">Number of Rows:</label>
+        <input type="number" id="rows" name="rows" min="1" required><br>
+        <label for="cols">Number of Columns:</label>
+        <input type="number" id="cols" name="cols" min="1" required><br>
+        <button type="submit">Create Table</button>
+    </form>
+
+    <h2>Tables:</h2>
+    {% if tables %}
+        {% for table in tables %}
+            <h3>{{ table['name'] }}</h3>
+            <table border="1">
+                {% for row in table['data'] %}
+                    <tr>
+                        {% for cell in row %}
+                            <td class="editable" contenteditable="true" data-table-id="{{ loop.index0 }}" data-row-index="{{ loop.index }}" data-col-index="{{ loop.index0 }}">{{ cell }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+            <form action="/add_row" method="post">
+                <input type="hidden" name="table_id" value="{{ loop.index0 }}">
+                <button type="submit">Add Row</button>
+            </form>
+            <form action="/add_column" method="post">
+                <input type="hidden" name="table_id" value="{{ loop.index0 }}">
+                <button type="submit">Add Column</button>
+            </form>
+        {% endfor %}
+    {% else %}
+        <p>No tables created yet.</p>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>

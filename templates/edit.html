@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Table</title>
+</head>
+<body>
+    <h1>Edit Table</h1>
+
+    <form action="/edit_table" method="post">
+        <input type="hidden" name="table_name" value="{{ table_name }}">
+        <input type="hidden" name="row_index" value="{{ row_index }}">
+        <input type="hidden" name="col_index" value="{{ col_index }}">
+        <label for="new_value">New Value:</label>
+        <input type="text" id="new_value" name="new_value" value="{{ cell_value }}" required><br>
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>
