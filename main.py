@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, send_file
+from flask import Flask, render_template, request, jsonify, redirect, send_file
 import re
 app = Flask(__name__)
 import xlwt
@@ -106,6 +106,13 @@ def add_row():
     table_id = int(request.form['table_id'])
     tables[table_id]['data'].append(['' for _ in range(len(tables[table_id]['data'][0]))])
     return render_template('table.html', tables=tables)
+@app.route('/add_column', methods=['POST'])
+def add_column():
+    table_id = int(request.form['table_id'])
+    for row in tables[table_id]['data']:
+        row.append('')
+    return redirect('/table')
+
 
 @app.route('/download_table/<int:table_id>', methods=['GET'])
 def download_table(table_id):

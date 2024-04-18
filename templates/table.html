@@ -4,18 +4,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table Maker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        table {
+            margin-bottom: 20px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-icon {
+            margin-right: 10px;
+        }
+
+        .editable {
+            min-width: 50px;
+            outline: none;
+            position: relative;
+        }
+
+        .editable input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+
+        .editable[contenteditable="true"]:empty:before {
+            content: attr(data-placeholder);
+            color: #999;
+        }
+    </style>
 </head>
 <body>
     <h1>Table Maker</h1>
 
     <form action="/add_table" method="post">
         <label for="table_name">Table Name:</label>
-        <input type="text" id="table_name" name="table_name" required><br>
+        <input type="text" id="table_name" name="table_name" required>
         <label for="rows">Number of Rows:</label>
-        <input type="number" id="rows" name="rows" min="1" required><br>
+        <input type="number" id="rows" name="rows" min="1" required>
         <label for="cols">Number of Columns:</label>
-        <input type="number" id="cols" name="cols" min="1" required><br>
-        <button type="submit">Create Table</button>
+        <input type="number" id="cols" name="cols" min="1" required>
+        <button class="btn" type="submit"><span class="btn-icon">➕</span>Create Table</button>
     </form>
 
     <h2>Tables:</h2>
@@ -26,21 +96,20 @@
                 {% for row in table['data'] %}
                     <tr>
                         {% for cell in row %}
-                            <td class="editable" contenteditable="true" data-table-id="{{ loop.index0 }}" data-row-index="{{ loop.index }}" data-col-index="{{ loop.index0 }}">{{ cell }}</td>
+                            <td class="editable" contenteditable="true" data-table-id="{{ loop.index0 }}" data-row-index="{{ loop.index }}" data-col-index="{{ loop.index0 }}" data-placeholder="Cell">{{ cell }}</td>
+
+
                         {% endfor %}
                     </tr>
                 {% endfor %}
             </table>
             <form action="/add_row" method="post">
                 <input type="hidden" name="table_id" value="{{ loop.index0 }}">
-                <button type="submit">Add Row</button>
+                <button class="btn" type="submit"><span class="btn-icon">➕</span>Add Row</button>
             </form>
             <form action="/add_column" method="post">
                 <input type="hidden" name="table_id" value="{{ loop.index0 }}">
-                <button type="submit">Add Column</button>
-            </form>
-                <form action="/download_table/{{ loop.index0 }}" method="get">
-                <button type="submit">Download Table (XLS)</button>
+                <button class="btn" type="submit"><span class="btn-icon">➕</span>Add Column</button>
             </form>
         {% endfor %}
     {% else %}
