@@ -39,6 +39,9 @@
                 <input type="hidden" name="table_id" value="{{ loop.index0 }}">
                 <button type="submit">Add Column</button>
             </form>
+                <form action="/download_table/{{ loop.index0 }}" method="get">
+                <button type="submit">Download Table (XLS)</button>
+            </form>
         {% endfor %}
     {% else %}
         <p>No tables created yet.</p>

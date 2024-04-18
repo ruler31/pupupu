@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_file
 import re
 app = Flask(__name__)
-
+import xlwt
 
 
 tables = []
@@ -107,6 +107,20 @@ def add_row():
     tables[table_id]['data'].append(['' for _ in range(len(tables[table_id]['data'][0]))])
     return render_template('table.html', tables=tables)
 
+@app.route('/download_table/<int:table_id>', methods=['GET'])
+def download_table(table_id):
+    table = tables[table_id]
+
+    workbook = xlwt.Workbook()
+    sheet = workbook.add_sheet('Table Data')
+
+    for row_index, row in enumerate(table['data']):
+        for col_index, cell in enumerate(row):
+            sheet.write(row_index, col_index, cell)
+
+    file_path = f'table_{table_id}.xls'
+    workbook.save(file_path)
+    return send_file(file_path, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
