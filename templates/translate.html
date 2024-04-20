@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Translation Result</title>
-    <!-- Подключаем файл стилей -->
+
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-    <!-- Подключаем библиотеку Font Awesome -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        /* Добавляем стили для увеличенного окна ввода */
         textarea {
             width: 100%;
             padding: 20px;
@@ -31,7 +30,7 @@
         <button onclick="translateText(); return false;"><i class="fas fa-language"></i> Translate</button>
     </div>
 
-    <!-- Добавляем скрипт для выделения текста курсивом или жирным цветом и перевода текста -->
+
     <script>
         function toggleItalic() {
             var translatedText = document.getElementById("translated-text-input");

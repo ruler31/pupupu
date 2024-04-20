@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify, redirect, send_file
 import re
 app = Flask(__name__)
 import xlwt
+from docx import Document
 
 
 tables = []
@@ -12,7 +13,9 @@ tables = []
 @app.route('/')
 def index():
     return render_template('index.html')
-
+@app.route('/trans')
+def trans():
+    return render_template('trans.html')
 
 @app.route('/translate', methods=['POST'])
 def translate():
@@ -77,15 +80,12 @@ def table():
 
 @app.route('/add_table', methods=['POST'])
 def add_table():
-    # Получаем данные из формы
     table_name = request.form['table_name']
     rows = int(request.form['rows'])
     cols = int(request.form['cols'])
 
-    # Создаем таблицу в виде списка списков
     table = [[f'Row {i+1}, Col {j+1}' for j in range(cols)] for i in range(rows)]
 
-    # Добавляем таблицу в список
     tables.append({'name': table_name, 'data': table})
 
     return render_template('table.html', tables=tables)
@@ -113,6 +113,9 @@ def add_column():
         row.append('')
     return redirect('/table')
 
+@app.route('/word')
+def word():
+    return render_template('word.html')
 
 @app.route('/download_table/<int:table_id>', methods=['GET'])
 def download_table(table_id):
@@ -127,6 +130,19 @@ def download_table(table_id):
 
     file_path = f'table_{table_id}.xls'
     workbook.save(file_path)
+    return send_file(file_path, as_attachment=True)
+
+
+@app.route('/save', methods=['POST'])
+def save():
+    document_content = request.form['document_content']
+
+    doc = Document()
+    doc.add_paragraph(document_content)
+
+    file_path = 'word.docx'
+    doc.save(file_path)
+
     return send_file(file_path, as_attachment=True)
 
 if __name__ == '__main__':

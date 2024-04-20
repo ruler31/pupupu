@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Editor</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            transform: scale(0.8);
+            transform-origin: top left;
+        }
+
+        .container {
+            max-width: none;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            transform: scale(1.25);
+            transform-origin: top left;
+            margin-left: 50px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: calc(100% - 20px);
+            min-height: 400px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            margin-right: 20px;
+        }
+
+        .button-row {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button, a.button {
+            padding: 10px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        button:hover, a.button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Document Editor</h1>
+        <textarea id="document-text" placeholder="Start typing here..."></textarea>
+        <div class="button-row">
+            <div>
+                <label for="font-family">Font Family:</label>
+                <select id="font-family">
+                    <option value="Arial, sans-serif">Arial</option>
+                    <option value="Times New Roman, serif">Times New Roman</option>
+                    <option value="Courier New, monospace">Courier New</option>
+                </select>
+            </div>
+            <div>
+                <label for="font-size">Font Size:</label>
+                <select id="font-size">
+                    <option value="12px">12</option>
+                    <option value="14px">14</option>
+                    <option value="16px">16</option>
+                    <option value="18px">18</option>
+                    <option value="20px">20</option>
+                </select>
+            </div>
+            <button id="save-button">Save</button>
+            <a href="/" class="button">Вернуться на главную страницу</a>
+        </div>
+    </div>
+
+    <script>
+
+        function applyStyles() {
+            var fontFamily = document.getElementById('font-family').value;
+            var fontSize = document.getElementById('font-size').value;
+            var textarea = document.getElementById('document-text');
+            textarea.style.fontFamily = fontFamily;
+            textarea.style.fontSize = fontSize;
+        }
+
+
+        document.getElementById('save-button').addEventListener('click', function() {
+            var documentContent = document.getElementById('document-text').value;
+            alert('Document saved:\n\n' + documentContent);
+        });
+
+        document.getElementById('font-family').addEventListener('change', applyStyles);
+        document.getElementById('font-size').addEventListener('change', applyStyles);
+
+        applyStyles();
+    </script>
+</body>
+</html>

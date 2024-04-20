@@ -3,23 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Translation</title>
+    <title>Welcome Page</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            margin: 0 auto;
+            margin-left: 10%;
+        }
+
+        .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 20px;
+            margin: 0 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Text Translation</h1>
-    <form action="/translate" method="post">
-        <label for="russian_text">Enter text:</label><br>
-        <textarea id="russian_text" name="russian_text" rows="4" cols="50"></textarea><br>
-        <label for="function_choice">Choose function:</label>
-        <select id="function_choice" name="function_choice">
-            <option value="to_english">Translate to English</option>
-            <option value="to_russian">Translate to Russian</option>
-            <option value="format_sentence">Format Sentence</option>
-        </select><br>
-        <input type="submit" value="Translate">
-    </form>
-    <p>Or click below to access the page for creating tables:</p>
-    <a href="/table">Create Tables</a>
+    <div class="container">
+        <i class="fas fa-globe icon"></i>
+        <h1>Welcome to My Website!</h1>
+        <p>Explore our features:</p>
+        <div class="buttons">
+            <a href="/trans" class="btn">Text Translation</a>
+            <a href="/table" class="btn">Create Tables</a>
+            <a href="/word" class="btn">Create Documents</a>
+        </div>
+    </div>
 </body>
 </html>

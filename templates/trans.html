@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Translation</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Text Translation</h1>
+    <form action="/translate" method="post">
+        <label for="russian_text">Enter text:</label><br>
+        <textarea id="russian_text" name="russian_text" rows="4" cols="50"></textarea><br>
+        <label for="function_choice">Choose function:</label>
+        <select id="function_choice" name="function_choice">
+            <option value="to_english">Translate to English</option>
+            <option value="to_russian">Translate to Russian</option>
+            <option value="format_sentence">Format Sentence</option>
+        </select><br>
+        <input type="submit" value="Translate">
+    </form>
+</body>
+</html>
