@@ -11,7 +11,6 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('background.jpg');
             background-size: cover;
             background-position: center;
             height: 100vh;
@@ -87,6 +86,16 @@
             left: 250px;
             background-color: #28a745;
         }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #dc3545;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -98,7 +107,13 @@
     <div class="btn login-btn">
         <a href="/login"><i class="fas fa-sign-in-alt"></i> Вход</a>
     </div>
-
+    {% if 'username' in session %}
+    <div class="btn logout-btn">
+        <form action="/logout" method="post">
+            <button type="submit"><i class="fas fa-sign-out-alt"></i> Выход</button>
+        </form>
+    </div>
+    {% endif %}
     <div class="container">
         <i class="fas fa-globe icon"></i>
         <h1>Добро пожаловать на Мой сайт!</h1>

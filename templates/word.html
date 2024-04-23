@@ -66,6 +66,12 @@
         button:hover, a.button:hover {
             background-color: #0056b3;
         }
+        .action-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px; /* В правом верхнем углу */
+            background-color: #007bff; /* Цвет как у кнопок Вход и Регистрация */
+        }
     </style>
 </head>
 <body>
@@ -91,11 +97,20 @@
                     <option value="20px">20</option>
                 </select>
             </div>
-            <button id="save-button">Сохранить</button>
+            <a href="/save" class="button">Сохранить</a>
             <a href="/" class="button">Вернуться на главную страницу</a>
         </div>
     </div>
+    <div class="btn action-btn">
+        <form action="/save" method="post">
+            <input type="hidden" name="text" id="text" value="{{ loaded_text }}">
+            <button type="submit"><i class="fas fa-save"></i> Сохранить</button>
+        </form>
+    </div>
 
+    <div class="btn action-btn">
+        <a href="/load"><i class="fas fa-file-download"></i> Загрузить</a>
+    </div>
     <script>
 
         function applyStyles() {

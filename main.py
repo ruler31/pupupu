@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, jsonify, redirect, send_file, session
+import os
+
+from flask import Flask, render_template, request, jsonify, redirect, send_file, session, url_for
 import re
 app = Flask(__name__)
 import xlwt
@@ -195,9 +197,58 @@ def check_credentials(username, password):
 
 
 def process_registration(form_data):
-    # Здесь вы можете обработать данные формы регистрации
-    # Например, сохранить данные в базе данных и т.д.
+
     return "Регистрация завершена успешно!"
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('index'))
+
+
+@app.route('/save', methods=['POST'])
+def save_text():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    text = request.form['text']
+
+    username = session['username']
+
+
+    user_folder = os.path.join("user_data", username)
+    os.makedirs(user_folder, exist_ok=True)
+
+
+    file_path = os.path.join(user_folder, "saved_text.txt")
+
+
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write(text)
+
+    return redirect(url_for('index'))
+
+
+
+@app.route('/load')
+def load_text():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    # Получаем имя пользователя из сессии
+    username = session['username']
+
+    # Путь к файлу пользователя
+    file_path = os.path.join("user_data", username, "saved_text.txt")
+
+    # Загружаем текст из файла, если файл существует
+    if os.path.exists(file_path):
+        with open(file_path, 'r', encoding='utf-8') as file:
+            text = file.read()
+    else:
+        text = ""  # Если файл не существует, возвращаем пустую строку
+
+    return render_template('index.html', loaded_text=text)
 
 if __name__ == '__main__':
     app.run(debug=True)
