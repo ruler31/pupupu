@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify, redirect, send_file
 import re
 app = Flask(__name__)
 import xlwt
-from docx import Document
+
 
 
 tables = []

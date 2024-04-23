@@ -7,17 +7,17 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Text Translation</h1>
+    <h1>Перевод текста</h1>
     <form action="/translate" method="post">
-        <label for="russian_text">Enter text:</label><br>
+        <label for="russian_text">Введите текст:</label><br>
         <textarea id="russian_text" name="russian_text" rows="4" cols="50"></textarea><br>
-        <label for="function_choice">Choose function:</label>
+        <label for="function_choice">Выберите функцию:</label>
         <select id="function_choice" name="function_choice">
-            <option value="to_english">Translate to English</option>
-            <option value="to_russian">Translate to Russian</option>
-            <option value="format_sentence">Format Sentence</option>
+            <option value="to_english">Перевести на Английскую раскладку</option>
+            <option value="to_russian">Перевести на Русскую раскладку</option>
+            <option value="format_sentence">Форматирование предложения</option>
         </select><br>
-        <input type="submit" value="Translate">
+        <input type="submit" value="Перевод">
     </form>
 </body>
 </html>

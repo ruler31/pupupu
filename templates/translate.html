@@ -21,13 +21,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>Translation Result <i class="fas fa-language"></i></h1>
-        <p><strong>Original Text:</strong> {{ original_text }}</p>
-        <p><strong>Translated Text:</strong> <span id="translated-text">{{ translated_text }}</span></p>
+        <h1>Результат перевода <i class="fas fa-language"></i></h1>
+        <p><strong>Оригинальный текст:</strong> {{ original_text }}</p>
+        <p><strong>Переведенный текст:</strong> <span id="translated-text">{{ translated_text }}</span></p>
         <input type="text" id="translated-text-input" value="{{ translated_text }}" onchange="updateText(this.value)">
-        <button onclick="toggleItalic(); return false;"><i class="fas fa-italic"></i> Toggle Italic</button>
-        <button onclick="toggleBoldColor(); return false;"><i class="fas fa-bold"></i> Toggle Bold Color</button>
-        <button onclick="translateText(); return false;"><i class="fas fa-language"></i> Translate</button>
+        <button onclick="toggleItalic(); return false;"><i class="fas fa-italic"></i> Курсив</button>
+        <button onclick="toggleBoldColor(); return false;"><i class="fas fa-bold"></i> Жирный текст</button>
+        <button onclick="translateText(); return false;"><i class="fas fa-language"></i> Перевод</button>
     </div>
 
 

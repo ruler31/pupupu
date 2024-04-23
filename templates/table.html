@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Table Maker</title>
+    <title>Создатель таблиц</title>
+    <a href="/" class="button">Вернуться на главную страницу</a>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -76,19 +77,19 @@
     </style>
 </head>
 <body>
-    <h1>Table Maker</h1>
+    <h1>Создатель Таблиц</h1>
 
     <form action="/add_table" method="post">
-        <label for="table_name">Table Name:</label>
+        <label for="table_name">Имя таблицы:</label>
         <input type="text" id="table_name" name="table_name" required>
-        <label for="rows">Number of Rows:</label>
+        <label for="rows">Кол-во строк:</label>
         <input type="number" id="rows" name="rows" min="1" required>
-        <label for="cols">Number of Columns:</label>
+        <label for="cols">Кол-во столбцов:</label>
         <input type="number" id="cols" name="cols" min="1" required>
-        <button class="btn" type="submit"><span class="btn-icon">➕</span>Create Table</button>
+        <button class="btn" type="submit"><span class="btn-icon">➕</span>Создать</button>
     </form>
 
-    <h2>Tables:</h2>
+    <h2>Таблица:</h2>
     {% if tables %}
         {% for table in tables %}
             <h3>{{ table['name'] }}</h3>
@@ -105,15 +106,15 @@
             </table>
             <form action="/add_row" method="post">
                 <input type="hidden" name="table_id" value="{{ loop.index0 }}">
-                <button class="btn" type="submit"><span class="btn-icon">➕</span>Add Row</button>
+                <button class="btn" type="submit"><span class="btn-icon">➕</span>Добавить Строку</button>
             </form>
             <form action="/add_column" method="post">
                 <input type="hidden" name="table_id" value="{{ loop.index0 }}">
-                <button class="btn" type="submit"><span class="btn-icon">➕</span>Add Column</button>
+                <button class="btn" type="submit"><span class="btn-icon">➕</span>Добавить столбик</button>
             </form>
         {% endfor %}
     {% else %}
-        <p>No tables created yet.</p>
+        <p>Таблицы еще не созданы.</p>
     {% endif %}
 
     <script src="{{ url_for('static', filename='main.js') }}"></script>
