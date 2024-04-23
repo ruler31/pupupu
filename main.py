@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, jsonify, redirect, send_file
+from flask import Flask, render_template, request, jsonify, redirect, send_file, session
 import re
 app = Flask(__name__)
 import xlwt
-
+import hashlib
+app.secret_key = 'nhneg82indcwfea244532tgdgw32214sagfew'
 
 
 tables = []
@@ -12,7 +13,13 @@ tables = []
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    if 'username' in session:
+        logged_in = True
+        username = session['username']
+    else:
+        logged_in = False
+        username = None
+    return render_template('index.html', logged_in=logged_in, username=username)
 @app.route('/trans')
 def trans():
     return render_template('trans.html')
@@ -133,17 +140,64 @@ def download_table(table_id):
     return send_file(file_path, as_attachment=True)
 
 
-@app.route('/save', methods=['POST'])
-def save():
-    document_content = request.form['document_content']
 
-    doc = Document()
-    doc.add_paragraph(document_content)
 
-    file_path = 'word.docx'
-    doc.save(file_path)
 
-    return send_file(file_path, as_attachment=True)
+
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'GET':
+        return render_template('register.html')
+    elif request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        with open("users.txt", "r") as f:
+            userse = f.readlines()
+            users = []
+            for user in userse:
+                users.append(user.split(":")[0])
+        if username in users:
+            return "Пользователь уже существует!"
+        with open('users.txt', 'a') as file:
+            file.write(f'{username}:{password}\n')
+        return "Регистрация завершена успешно!"
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        if check_credentials(username, password):
+            session['username'] = username
+            return redirect('/')
+        else:
+            return render_template('login.html', error='Неправильное имя пользователя или пароль')
+
+
+
+
+def check_credentials(username, password):
+    with open('users.txt', 'r') as file:
+        for line in file:
+            stored_username, *stored_password = line.strip().split(':')
+            stored_password = ':'.join(stored_password)  # Объединяем оставшуюся часть строки как пароль
+            if stored_username == username and stored_password == password:
+                return True
+    return False
+
+
+
+
+def process_registration(form_data):
+    # Здесь вы можете обработать данные формы регистрации
+    # Например, сохранить данные в базе данных и т.д.
+    return "Регистрация завершена успешно!"
 
 if __name__ == '__main__':
     app.run(debug=True)
