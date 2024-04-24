@@ -188,7 +188,7 @@ def check_credentials(username, password):
     with open('users.txt', 'r') as file:
         for line in file:
             stored_username, *stored_password = line.strip().split(':')
-            stored_password = ':'.join(stored_password)  # Объединяем оставшуюся часть строки как пароль
+            stored_password = ':'.join(stored_password)
             if stored_username == username and stored_password == password:
                 return True
     return False
@@ -210,23 +210,16 @@ def logout():
 def save_text():
     if 'username' not in session:
         return redirect(url_for('login'))
-
-    text = request.form['text']
-
+    text = request.form['document-text']
     username = session['username']
-
-
     user_folder = os.path.join("user_data", username)
     os.makedirs(user_folder, exist_ok=True)
-
-
     file_path = os.path.join(user_folder, "saved_text.txt")
-
-
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(text)
+    return "Текст успешно сохранен!"
 
-    return redirect(url_for('index'))
+
 
 
 
@@ -235,20 +228,20 @@ def load_text():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    # Получаем имя пользователя из сессии
+
     username = session['username']
 
-    # Путь к файлу пользователя
+
     file_path = os.path.join("user_data", username, "saved_text.txt")
 
-    # Загружаем текст из файла, если файл существует
+
     if os.path.exists(file_path):
         with open(file_path, 'r', encoding='utf-8') as file:
             text = file.read()
     else:
-        text = ""  # Если файл не существует, возвращаем пустую строку
+        text = ""
 
-    return render_template('index.html', loaded_text=text)
+    return render_template('word.html', loaded_text=text)
 
 if __name__ == '__main__':
     app.run(debug=True)

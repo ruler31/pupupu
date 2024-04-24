@@ -11,37 +11,36 @@
             margin: 0;
             padding: 0;
             background-color: #f0f0f0;
-            transform: scale(0.8);
-            transform-origin: top left;
         }
 
         .container {
-            max-width: none;
+            max-width: 800px;
             margin: 50px auto;
             padding: 20px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            transform: scale(1.25);
-            transform-origin: top left;
-            margin-left: 50px;
+            border-radius: 10px;
         }
 
         h1 {
             color: #333;
             margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: bold;
         }
 
-        textarea {
-            width: calc(100% - 20px);
-            min-height: 400px;
+        label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        select, textarea {
+            font-size: 16px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            resize: vertical;
-            font-family: Arial, sans-serif;
-            font-size: 16px;
             margin-right: 20px;
+            margin-bottom: 10px;
         }
 
         .button-row {
@@ -51,7 +50,7 @@
         }
 
         button, a.button {
-            padding: 10px 10px;
+            padding: 10px 20px;
             border: none;
             border-radius: 5px;
             background-color: #007bff;
@@ -66,26 +65,30 @@
         button:hover, a.button:hover {
             background-color: #0056b3;
         }
+
         .action-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px; /* В правом верхнем углу */
-            background-color: #007bff; /* Цвет как у кнопок Вход и Регистрация */
+            position: relative;
+            display: inline-block;
+        }
+
+        .action-btn a, .action-btn button {
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Редактор документов</h1>
-        <textarea id="document-text" placeholder="Start typing here..."></textarea>
+        <h1>Текстовый редактор</h1>
+
         <div class="button-row">
             <div>
-                <label for="font-family">Семейство шрифтов:</label>
+                <label for="font-family">Шрифты:</label>
                 <select id="font-family">
                     <option value="Arial, sans-serif">Arial</option>
                     <option value="Times New Roman, serif">Times New Roman</option>
                     <option value="Courier New, monospace">Courier New</option>
                 </select>
+
             </div>
             <div>
                 <label for="font-size">Размер шрифта:</label>
@@ -97,22 +100,23 @@
                     <option value="20px">20</option>
                 </select>
             </div>
-            <a href="/save" class="button">Сохранить</a>
-            <a href="/" class="button">Вернуться на главную страницу</a>
+            <a href="/" class="button">Вернуться на главную</a>
+            <div class="action-btn">
+        <form action="/save" method="post">
+            <textarea name="document-text" id="document-text" placeholder="Start typing here...">{{ loaded_text }}</textarea>
+
+            <button type="submit">Сохранить</button>
+        </form>
+        <div class="action-btn">
+        <a href="/load">Скачать</a>
+    </div>
+    </div>
         </div>
     </div>
-    <div class="btn action-btn">
-        <form action="/save" method="post">
-            <input type="hidden" name="text" id="text" value="{{ loaded_text }}">
-            <button type="submit"><i class="fas fa-save"></i> Сохранить</button>
-        </form>
-    </div>
 
-    <div class="btn action-btn">
-        <a href="/load"><i class="fas fa-file-download"></i> Загрузить</a>
-    </div>
+
+
     <script>
-
         function applyStyles() {
             var fontFamily = document.getElementById('font-family').value;
             var fontSize = document.getElementById('font-size').value;
@@ -120,12 +124,6 @@
             textarea.style.fontFamily = fontFamily;
             textarea.style.fontSize = fontSize;
         }
-
-
-        document.getElementById('save-button').addEventListener('click', function() {
-            var documentContent = document.getElementById('document-text').value;
-            alert('Document saved:\n\n' + documentContent);
-        });
 
         document.getElementById('font-family').addEventListener('change', applyStyles);
         document.getElementById('font-size').addEventListener('change', applyStyles);
