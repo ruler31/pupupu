@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Добро пожаловать на Мой сайт!</title>
+    <title>LISTOK.IO</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -93,6 +93,7 @@
             right: 20px;
             background-color: #dc3545;
         }
+
         .btn:hover {
             background-color: #0056b3;
         }
@@ -100,32 +101,32 @@
 </head>
 <body>
 
-    <div class="btn register-btn">
-        <a href="/register"><i class="fas fa-user-plus"></i> Регистрация</a>
-    </div>
+<div class="btn register-btn">
+    <a href="/register"><i class="fas fa-user-plus"></i> Регистрация</a>
+</div>
 
-    <div class="btn login-btn">
-        <a href="/login"><i class="fas fa-sign-in-alt"></i> Вход</a>
+<div class="btn login-btn">
+    <a href="/login"><i class="fas fa-sign-in-alt"></i> Вход</a>
+</div>
+{% if 'username' in session %}
+<div class="btn logout-btn">
+    <form action="/logout" method="post">
+        <button type="submit"><i class="fas fa-sign-out-alt"></i> Выход</button>
+    </form>
+</div>
+{% endif %}
+<div class="container">
+    <i class="fas fa-globe icon"></i>
+    <h1>LISTOK.IO</h1>
+    <p>Ознакомьтесь с нашими функциями:</p>
+    <div class="buttons">
+        <a href="/trans" class="btn">Перевод текста</a>
+        <a href="/table" class="btn">Создание таблиц</a>
+        <a href="/word" class="btn">Создание документов</a>
     </div>
     {% if 'username' in session %}
-    <div class="btn logout-btn">
-        <form action="/logout" method="post">
-            <button type="submit"><i class="fas fa-sign-out-alt"></i> Выход</button>
-        </form>
-    </div>
+    <p>Добро пожаловать, {{ session['username'] }}!</p>
     {% endif %}
-    <div class="container">
-        <i class="fas fa-globe icon"></i>
-        <h1>Добро пожаловать на Мой сайт!</h1>
-        <p>Ознакомьтесь с нашими функциями:</p>
-        <div class="buttons">
-            <a href="/trans" class="btn">Перевод текста</a>
-            <a href="/table" class="btn">Создание таблиц</a>
-            <a href="/word" class="btn">Создание документов</a>
-        </div>
-        {% if 'username' in session %}
-            <p>Добро пожаловать, {{ session['username'] }}!</p>
-        {% endif %}
-    </div>
+</div>
 </body>
 </html>

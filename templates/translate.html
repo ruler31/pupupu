@@ -20,47 +20,47 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Результат перевода <i class="fas fa-language"></i></h1>
-        <p><strong>Оригинальный текст:</strong> {{ original_text }}</p>
-        <p><strong>Переведенный текст:</strong> <span id="translated-text">{{ translated_text }}</span></p>
-        <input type="text" id="translated-text-input" value="{{ translated_text }}" onchange="updateText(this.value)">
-        <button onclick="toggleItalic(); return false;"><i class="fas fa-italic"></i> Курсив</button>
-        <button onclick="toggleBoldColor(); return false;"><i class="fas fa-bold"></i> Жирный текст</button>
-        <button onclick="translateText(); return false;"><i class="fas fa-language"></i> Перевод</button>
-    </div>
+<div class="container">
+    <h1>Результат перевода <i class="fas fa-language"></i></h1>
+    <p><strong>Оригинальный текст:</strong> {{ original_text }}</p>
+    <p><strong>Переведенный текст:</strong> <span id="translated-text">{{ translated_text }}</span></p>
+    <input type="text" id="translated-text-input" value="{{ translated_text }}" onchange="updateText(this.value)">
+    <button onclick="toggleItalic(); return false;"><i class="fas fa-italic"></i> Курсив</button>
+    <button onclick="toggleBoldColor(); return false;"><i class="fas fa-bold"></i> Жирный текст</button>
+    <button onclick="translateText(); return false;"><i class="fas fa-language"></i> Перевод</button>
+</div>
 
 
-    <script>
-        function toggleItalic() {
-            var translatedText = document.getElementById("translated-text-input");
-            translatedText.classList.toggle("italic");
-        }
+<script>
+    function toggleItalic() {
+        var translatedText = document.getElementById("translated-text-input");
+        translatedText.classList.toggle("italic");
+    }
 
-        function toggleBoldColor() {
-            var translatedText = document.getElementById("translated-text-input");
-            translatedText.classList.toggle("bold-color");
-        }
+    function toggleBoldColor() {
+        var translatedText = document.getElementById("translated-text-input");
+        translatedText.classList.toggle("bold-color");
+    }
 
-        function updateText(value) {
-            var translatedText = document.getElementById("translated-text");
-            translatedText.innerText = value;
-        }
+    function updateText(value) {
+        var translatedText = document.getElementById("translated-text");
+        translatedText.innerText = value;
+    }
 
-        function translateText() {
-            var originalText = document.getElementById("translated-text-input").value;
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/translate", true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    document.getElementById("translated-text").innerText = response.translated_text;
-                }
-            };
-            var data = JSON.stringify({ original_text: originalText });
-            xhr.send(data);
-        }
-    </script>
+    function translateText() {
+        var originalText = document.getElementById("translated-text-input").value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/translate", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                document.getElementById("translated-text").innerText = response.translated_text;
+            }
+        };
+        var data = JSON.stringify({original_text: originalText});
+        xhr.send(data);
+    }
+</script>
 </body>
 </html>

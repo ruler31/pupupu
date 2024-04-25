@@ -77,58 +77,61 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Текстовый редактор</h1>
-
-        <div class="button-row">
-            <div>
-                <label for="font-family">Шрифты:</label>
-                <select id="font-family">
-                    <option value="Arial, sans-serif">Arial</option>
-                    <option value="Times New Roman, serif">Times New Roman</option>
-                    <option value="Courier New, monospace">Courier New</option>
-                </select>
-
-            </div>
-            <div>
-                <label for="font-size">Размер шрифта:</label>
-                <select id="font-size">
-                    <option value="12px">12</option>
-                    <option value="14px">14</option>
-                    <option value="16px">16</option>
-                    <option value="18px">18</option>
-                    <option value="20px">20</option>
-                </select>
-            </div>
-            <a href="/" class="button">Вернуться на главную</a>
-            <div class="action-btn">
-        <form action="/save" method="post">
-            <textarea name="document-text" id="document-text" placeholder="Start typing here...">{{ loaded_text }}</textarea>
-
-            <button type="submit">Сохранить</button>
-        </form>
-        <div class="action-btn">
+<div class="container">
+    <h1>Текстовый редактор</h1>
+    <a href="/" class="button">Вернуться на главную</a>
+    <form action="/save" method="post">
+        <textarea name="document-text" id="document-text"
+                  placeholder="Start typing here...">{{ loaded_text }}</textarea>
+        <button type="submit">Сохранить</button>
         <a href="/load">Скачать</a>
-    </div>
-    </div>
+    </form>
+
+
+    <div class="button-row">
+        <div>
+            <label for="font-family">Шрифты:</label>
+            <select id="font-family">
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="Times New Roman, serif">Times New Roman</option>
+                <option value="Courier New, monospace">Courier New</option>
+            </select>
+
+        </div>
+        <div>
+            <label for="font-size">Размер шрифта:</label>
+            <select id="font-size">
+                <option value="12px">12</option>
+                <option value="14px">14</option>
+                <option value="16px">16</option>
+                <option value="18px">18</option>
+                <option value="20px">20</option>
+            </select>
+        </div>
+
+        <div class="action-btn">
+
+            <div class="action-btn">
+
+            </div>
         </div>
     </div>
+</div>
 
 
+<script>
+    function applyStyles() {
+        var fontFamily = document.getElementById('font-family').value;
+        var fontSize = document.getElementById('font-size').value;
+        var textarea = document.getElementById('document-text');
+        textarea.style.fontFamily = fontFamily;
+        textarea.style.fontSize = fontSize;
+    }
 
-    <script>
-        function applyStyles() {
-            var fontFamily = document.getElementById('font-family').value;
-            var fontSize = document.getElementById('font-size').value;
-            var textarea = document.getElementById('document-text');
-            textarea.style.fontFamily = fontFamily;
-            textarea.style.fontSize = fontSize;
-        }
+    document.getElementById('font-family').addEventListener('change', applyStyles);
+    document.getElementById('font-size').addEventListener('change', applyStyles);
 
-        document.getElementById('font-family').addEventListener('change', applyStyles);
-        document.getElementById('font-size').addEventListener('change', applyStyles);
-
-        applyStyles();
-    </script>
+    applyStyles();
+</script>
 </body>
 </html>

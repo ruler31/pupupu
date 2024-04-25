@@ -2,15 +2,13 @@ import os
 
 from flask import Flask, render_template, request, jsonify, redirect, send_file, session, url_for
 import re
+
 app = Flask(__name__)
 import xlwt
-import hashlib
+
 app.secret_key = 'nhneg82indcwfea244532tgdgw32214sagfew'
 
-
 tables = []
-
-
 
 
 @app.route('/')
@@ -22,9 +20,12 @@ def index():
         logged_in = False
         username = None
     return render_template('index.html', logged_in=logged_in, username=username)
+
+
 @app.route('/trans')
 def trans():
     return render_template('trans.html')
+
 
 @app.route('/translate', methods=['POST'])
 def translate():
@@ -83,9 +84,11 @@ def format_sentence(sentence):
 
     return sentence
 
+
 @app.route('/table')
 def table():
     return render_template('table.html', tables=tables)
+
 
 @app.route('/add_table', methods=['POST'])
 def add_table():
@@ -93,11 +96,12 @@ def add_table():
     rows = int(request.form['rows'])
     cols = int(request.form['cols'])
 
-    table = [[f'Row {i+1}, Col {j+1}' for j in range(cols)] for i in range(rows)]
+    table = [[f'Row {i + 1}, Col {j + 1}' for j in range(cols)] for i in range(rows)]
 
     tables.append({'name': table_name, 'data': table})
 
     return render_template('table.html', tables=tables)
+
 
 @app.route('/update_cell', methods=['POST'])
 def update_cell():
@@ -110,11 +114,15 @@ def update_cell():
     tables[table_id]['data'][row_index][col_index] = new_value
 
     return jsonify({'message': 'Cell updated successfully'})
+
+
 @app.route('/add_row', methods=['POST'])
 def add_row():
     table_id = int(request.form['table_id'])
-    tables[table_id]['data'].append(['' for _ in range(len(tables[table_id]['data'][0]))])
+    tables[table_id]['data'].append(['' for i in range(len(tables[table_id]['data'][0]))])
     return render_template('table.html', tables=tables)
+
+
 @app.route('/add_column', methods=['POST'])
 def add_column():
     table_id = int(request.form['table_id'])
@@ -122,9 +130,11 @@ def add_column():
         row.append('')
     return redirect('/table')
 
+
 @app.route('/word')
 def word():
     return render_template('word.html')
+
 
 @app.route('/download_table/<int:table_id>', methods=['GET'])
 def download_table(table_id):
@@ -140,12 +150,6 @@ def download_table(table_id):
     file_path = f'table_{table_id}.xls'
     workbook.save(file_path)
     return send_file(file_path, as_attachment=True)
-
-
-
-
-
-
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -182,8 +186,6 @@ def login():
             return render_template('login.html', error='Неправильное имя пользователя или пароль')
 
 
-
-
 def check_credentials(username, password):
     with open('users.txt', 'r') as file:
         for line in file:
@@ -194,11 +196,9 @@ def check_credentials(username, password):
     return False
 
 
-
-
 def process_registration(form_data):
-
     return "Регистрация завершена успешно!"
+
 
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -220,20 +220,14 @@ def save_text():
     return "Текст успешно сохранен!"
 
 
-
-
-
 @app.route('/load')
 def load_text():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-
     username = session['username']
 
-
     file_path = os.path.join("user_data", username, "saved_text.txt")
-
 
     if os.path.exists(file_path):
         with open(file_path, 'r', encoding='utf-8') as file:
@@ -242,6 +236,7 @@ def load_text():
         text = ""
 
     return render_template('word.html', loaded_text=text)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

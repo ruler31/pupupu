@@ -59,6 +59,7 @@ input[type="submit"] {
     border-top: 1px solid #ccc;
     padding-top: 10px;
 }
+
 .translate-another {
     display: block;
     margin-top: 20px;
@@ -70,6 +71,7 @@ input[type="submit"] {
 .translate-another:hover {
     text-decoration: underline;
 }
+
 .result {
     margin-top: 20px;
     border-top: 1px solid #ccc;
@@ -79,6 +81,7 @@ input[type="submit"] {
 .result p {
     margin: 0;
 }
+
 .container {
     max-width: 800px;
     margin: 0 auto;
