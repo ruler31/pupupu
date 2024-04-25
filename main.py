@@ -5,12 +5,12 @@ import re
 app = Flask(__name__)
 import xlwt
 import hashlib
+
+
 app.secret_key = 'nhneg82indcwfea244532tgdgw32214sagfew'
 
 
 tables = []
-
-
 
 
 @app.route('/')
@@ -22,9 +22,12 @@ def index():
         logged_in = False
         username = None
     return render_template('index.html', logged_in=logged_in, username=username)
+
+
 @app.route('/trans')
 def trans():
     return render_template('trans.html')
+
 
 @app.route('/translate', methods=['POST'])
 def translate():
@@ -83,9 +86,11 @@ def format_sentence(sentence):
 
     return sentence
 
+
 @app.route('/table')
 def table():
     return render_template('table.html', tables=tables)
+
 
 @app.route('/add_table', methods=['POST'])
 def add_table():
@@ -99,6 +104,7 @@ def add_table():
 
     return render_template('table.html', tables=tables)
 
+
 @app.route('/update_cell', methods=['POST'])
 def update_cell():
     data = request.json
@@ -110,11 +116,15 @@ def update_cell():
     tables[table_id]['data'][row_index][col_index] = new_value
 
     return jsonify({'message': 'Cell updated successfully'})
+
+
 @app.route('/add_row', methods=['POST'])
 def add_row():
     table_id = int(request.form['table_id'])
     tables[table_id]['data'].append(['' for _ in range(len(tables[table_id]['data'][0]))])
     return render_template('table.html', tables=tables)
+
+
 @app.route('/add_column', methods=['POST'])
 def add_column():
     table_id = int(request.form['table_id'])
@@ -122,9 +132,11 @@ def add_column():
         row.append('')
     return redirect('/table')
 
+
 @app.route('/word')
 def word():
     return render_template('word.html')
+
 
 @app.route('/download_table/<int:table_id>', methods=['GET'])
 def download_table(table_id):
@@ -140,12 +152,6 @@ def download_table(table_id):
     file_path = f'table_{table_id}.xls'
     workbook.save(file_path)
     return send_file(file_path, as_attachment=True)
-
-
-
-
-
-
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -182,23 +188,20 @@ def login():
             return render_template('login.html', error='Неправильное имя пользователя или пароль')
 
 
-
-
 def check_credentials(username, password):
     with open('users.txt', 'r') as file:
         for line in file:
             stored_username, *stored_password = line.strip().split(':')
-            stored_password = ':'.join(stored_password)
+            stored_password = ':'.join(stored_password)  # Объединяем оставшуюся часть строки как пароль
             if stored_username == username and stored_password == password:
                 return True
     return False
 
 
-
-
 def process_registration(form_data):
 
     return "Регистрация завершена успешно!"
+
 
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -210,17 +213,20 @@ def logout():
 def save_text():
     if 'username' not in session:
         return redirect(url_for('login'))
-    text = request.form['document-text']
+
+    text = request.form['text']
+
     username = session['username']
+
     user_folder = os.path.join("user_data", username)
     os.makedirs(user_folder, exist_ok=True)
+
     file_path = os.path.join(user_folder, "saved_text.txt")
+
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(text)
-    return "Текст успешно сохранен!"
 
-
-
+    return redirect(url_for('index'))
 
 
 @app.route('/load')
@@ -228,20 +234,21 @@ def load_text():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-
+    # Получаем имя пользователя из сессии
     username = session['username']
 
-
+    # Путь к файлу пользователя
     file_path = os.path.join("user_data", username, "saved_text.txt")
 
-
+    # Загружаем текст из файла, если файл существует
     if os.path.exists(file_path):
         with open(file_path, 'r', encoding='utf-8') as file:
             text = file.read()
     else:
-        text = ""
+        text = ""  # Если файл не существует, возвращаем пустую строку
 
-    return render_template('word.html', loaded_text=text)
+    return render_template('index.html', loaded_text=text)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
